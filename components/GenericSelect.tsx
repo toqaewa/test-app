@@ -6,7 +6,6 @@ interface GenericSelectProps<T extends ValueType> {
   value: T | null;
   onChange: (value: T) => void;
   placeholder?: string;
-  style?: object;
   dropDownStyle?: object;
   listMode?: 'SCROLLVIEW' | 'MODAL' | 'FLATLIST';
 }
@@ -16,7 +15,6 @@ export default function GenericSelect<T extends ValueType>({
   value,
   onChange,
   placeholder = 'Select',
-  style,
   listMode = 'SCROLLVIEW',
 }: GenericSelectProps<T>) {
   const [open, setOpen] = useState(false);
@@ -36,7 +34,8 @@ export default function GenericSelect<T extends ValueType>({
       }}
       listMode={listMode}
       placeholder={placeholder}
-      style={style || { borderColor: '#ccc' }}
+      style={{ borderColor: '#ccc', borderRadius: 12 }}
+      dropDownContainerStyle={{ borderColor: '#ccc' }}
     />
   );
 }
