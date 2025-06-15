@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import { Button, Text, TouchableOpacity, View } from "react-native";
 import DatePicker from 'react-native-date-picker';
 
-interface DatePickerOpenerProps {
+interface DateTimePickerProps {
   selectedDate: Date;
   onDateChange: (date: Date) => void;
+  mode: "time" | "date";
+  placeholder: string;
 }
 
 
-export default function DatePickerOpener({ selectedDate, onDateChange }: DatePickerOpenerProps) {
+export default function DateTimePicker({ selectedDate, onDateChange, mode, placeholder }: DateTimePickerProps) {
   const [open, setOpen] = useState(false);
 
   const handleConfirm = (date: Date) => {
@@ -19,11 +21,13 @@ export default function DatePickerOpener({ selectedDate, onDateChange }: DatePic
 
   return (
     <TouchableOpacity style={styles.datePicker} onPress={() => setOpen(true)}>
-      <Text style={styles.datePickerPlaceholder}>Date</Text>
-      <Text style={styles.datePickerDate}>{selectedDate.toDateString()}</Text>
+      <Text style={styles.datePickerPlaceholder}>{placeholder}</Text>
+      {
+        mode === 'date' ? <Text style={styles.datePickerDate}>{selectedDate.toDateString()}</Text> : <Text style={styles.datePickerDate}>{selectedDate.toTimeString()}</Text>
+      }
       <DatePicker 
         modal
-        mode="date"
+        mode={mode}
         open={open}
         date={selectedDate}
         onConfirm={handleConfirm}
