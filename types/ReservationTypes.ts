@@ -13,7 +13,7 @@ export interface Reservation {
 }
 
 export const STATUS_CONFIG = {
-  notConfirmed: { label: 'Not Confirmed', color: '#FFA726' },
-  confirmed: { label: 'Confirmed', color: '#29B6F6' },
-  started: { label: 'Started', color: '#66BB6A' },
+  notConfirmed: { label: 'Not Confirmed', color: '#B45100' },
+  confirmed: { label: 'Confirmed', color: '#B4A500' },
+  started: { label: 'Started', color: '#00B40C' },
 };

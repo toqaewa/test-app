@@ -4,13 +4,15 @@ import React from "react";
 import {Text, View, ScrollView } from "react-native";
 import ReservationCard from "./ReservationCard";
 
-interface StatusBarColumnProps {
+interface StatusColumnProps {
   status: Status;
   reservations: Reservation[];
   onReservationPress: (reservation: Reservation) => void;
 }
 
-function StatusBarColumn({ status, reservations, onReservationPress }: StatusBarColumnProps) {
+
+
+function StatusColumn({ status, reservations, onReservationPress }: StatusColumnProps) {
   const sortedReservations = [...reservations].sort((a, b) => {
     const aEnd = new Date(`2000-01-01T${a.startTime}` as any).getTime() + a.duration * 60000;
     const bEnd = new Date(`2000-01-01T${b.startTime}` as any).getTime() + b.duration * 60000;
@@ -18,9 +20,9 @@ function StatusBarColumn({ status, reservations, onReservationPress }: StatusBar
   });
 
   return (
-    <View style={[styles.column, { borderColor: STATUS_CONFIG[status].color }]}>
-      <Text style={styles.columnHeader}>{STATUS_CONFIG[status].label}</Text>
-      <ScrollView style={styles.list}>
+    <View style={[styles.column, { backgroundColor: STATUS_CONFIG[status].color + "80" }]}>
+      <Text style={[styles.columnHeader, { color: STATUS_CONFIG[status].color }]}>{STATUS_CONFIG[status].label}</Text>
+      <ScrollView contentContainerStyle={{ gap: 8 }}>
         {sortedReservations.map((reservation: Reservation) => (
           <ReservationCard key={reservation.id} reservation={reservation} onPress={() => onReservationPress(reservation)} />
         ))}
@@ -29,4 +31,4 @@ function StatusBarColumn({ status, reservations, onReservationPress }: StatusBar
   );
 }
 
-export default StatusBarColumn
+export default StatusColumn

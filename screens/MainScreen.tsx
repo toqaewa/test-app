@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, ScrollView, Button } from "react-native";
 import { Reservation } from "@/types/ReservationTypes";
-import StatusBarColumn from "@/components/StatusBarColumn";
+import StatusColumn from "@/components/StatusColumn";
 import styles from "@/constants/Styles";
 import ReservationModal from "@/components/ReservationModal";
 import UUID from 'react-native-uuid';
@@ -9,7 +9,6 @@ import DatePickerOpener from "@/components/DatePickerOpener";
 
 export default function MainScreen() {
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentReservation, setCurrentReservation] = useState<Partial<Reservation>>({});
   const [reservations, setReservations] = useState<Reservation[]>([
@@ -33,6 +32,17 @@ export default function MainScreen() {
       partySize: 2,
       comment: 'Blacklist',
       status: 'confirmed',
+      date: formatDate(new Date()),
+    },
+    {
+      id: '3',
+      guest: 'Ivan Petrov',
+      table: 'VIP4',
+      startTime: '12:00',
+      duration: 120,
+      partySize: 8,
+      comment: 'comment',
+      status: 'notConfirmed',
       date: formatDate(new Date()),
     },
   ]);
@@ -85,18 +95,18 @@ export default function MainScreen() {
   return (
     <View style={styles.container}>
         <DatePickerOpener selectedDate={date} onDateChange={setDate} />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <StatusBarColumn
+        <ScrollView contentContainerStyle={{ gap: 24 }} horizontal showsHorizontalScrollIndicator={false}>
+            <StatusColumn
             status="notConfirmed"
             reservations={groupedReservations.notConfirmed}
             onReservationPress={handleEditReservation}
             />
-            <StatusBarColumn
+            <StatusColumn
             status="confirmed"
             reservations={groupedReservations.confirmed}
             onReservationPress={handleEditReservation}
             />
-            <StatusBarColumn
+            <StatusColumn
             status="started"
             reservations={groupedReservations.started}
             onReservationPress={handleEditReservation}
