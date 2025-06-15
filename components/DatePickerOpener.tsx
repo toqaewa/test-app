@@ -1,5 +1,6 @@
+import styles from "@/constants/Styles";
 import React, { useState } from 'react';
-import { Button, Text } from "react-native";
+import { Button, Text, TouchableOpacity, View } from "react-native";
 import DatePicker from 'react-native-date-picker';
 
 interface DatePickerOpenerProps {
@@ -17,16 +18,17 @@ export default function DatePickerOpener({ selectedDate, onDateChange }: DatePic
   };
 
   return (
-    <>
-      <Button title="Date" onPress={() => setOpen(true)} />
-      <Text>Выбрать дату: {selectedDate.toDateString()}</Text>
+    <TouchableOpacity style={styles.datePicker} onPress={() => setOpen(true)}>
+      <Text style={styles.datePickerPlaceholder}>Date</Text>
+      <Text style={styles.datePickerDate}>{selectedDate.toDateString()}</Text>
       <DatePicker 
         modal
+        mode="date"
         open={open}
         date={selectedDate}
         onConfirm={handleConfirm}
         onCancel={() => {setOpen(false)}}
       />
-    </>
+    </TouchableOpacity>
   );
 }

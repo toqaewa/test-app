@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     gap: 32,
     backgroundColor: '#fff',
+    fontFamily: 'Jura',
   },
   column: {
     width: 300,
@@ -22,7 +23,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F2FF',
     borderRadius: 12,
   },
-  datePicker: {},
+  datePicker: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 8,
+  },
+  datePickerToggle: {},
+  datePickerPlaceholder: {
+    fontWeight: 500,
+    fontSize: 12,
+  },
+  datePickerDate: {
+    fontWeight: 700,
+    fontSize: 14,
+  },
   modalContainer: {
     marginTop: 64,
     padding: 20,
