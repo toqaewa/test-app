@@ -1,11 +1,20 @@
 import styles from "@/constants/Styles";
 import { Text, TouchableOpacity } from "react-native";
+import { Reservation, STATUS_CONFIG } from "@/types/ReservationTypes";
 
-function ReservationCard({ reservation, onPress }: any) {
+interface CardColumnProps {
+  reservation: Reservation;
+  onPress: () => void;
+}
+
+function ReservationCard({ reservation, onPress }: CardColumnProps) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
-      <Text>Start: {reservation.startTime}</Text>
-      <Text>Duration: {reservation.duration} min</Text>
+        <Text>{reservation.guest}</Text>
+        <Text>{reservation.table}</Text>
+        <Text>{reservation.partySize} 👤</Text>
+        <Text>{reservation.startTime} - {reservation.endTime}</Text>
+        {reservation.delayTime > 0 && <Text>{reservation.delayTime} min late</Text>}
     </TouchableOpacity>
   );
 }
