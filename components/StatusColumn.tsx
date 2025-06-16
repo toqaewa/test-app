@@ -3,6 +3,7 @@ import { Status, Reservation, STATUS_CONFIG } from "@/types/ReservationTypes";
 import React from "react";
 import {Text, View, ScrollView } from "react-native";
 import ReservationCard from "./ReservationCard";
+import { Subheading } from "./Typography/Typography";
 
 interface StatusColumnProps {
   status: Status;
@@ -19,7 +20,7 @@ function StatusColumn({ status, reservations, onReservationPress }: StatusColumn
 
   return (
     <View style={[styles.column, { backgroundColor: STATUS_CONFIG[status].color + "80" }]}>
-      <Text style={[styles.columnHeader, { color: STATUS_CONFIG[status].color }]}>{STATUS_CONFIG[status].label}</Text>
+      <Subheading children={STATUS_CONFIG[status].label} color={STATUS_CONFIG[status].color} />
       <ScrollView contentContainerStyle={{ gap: 8 }}>
         {sortedReservations.map((reservation: Reservation) => (
           <ReservationCard key={reservation.id} reservation={reservation} onPress={() => onReservationPress(reservation)} />
