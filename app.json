@@ -35,7 +35,18 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Jura/Jura-Bold.ttf",
+            "./assets/fonts/Jura/Jura-Light.ttf",
+            "./assets/fonts/Jura/Jura-Medium.ttf",
+            "./assets/fonts/Jura/Jura-Regular.ttf",
+            "./assets/fonts/Jura/Jura-SemiBold.ttf"
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
