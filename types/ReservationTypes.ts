@@ -9,7 +9,9 @@ export interface Reservation {
   partySize: number;
   comment: string;
   status: Status;
-  date: string; // YYYY-MM-DD
+  date: string;
+  endTime: string;
+  delayTime: number;
 }
 
 export const STATUS_CONFIG = {
