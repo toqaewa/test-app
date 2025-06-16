@@ -4,24 +4,40 @@ import { textStyles } from "./TextStyles";
 
 interface TypographyProps {
   children: string;
+  color?: string;
 }
 
-export const Heading = ({ children }: TypographyProps) => (
-  <Text style={[textStyles.heading]}>{children}</Text>
-);
+export const Heading = ({ children, color }: TypographyProps) => {
+  const textColor = color ? { color } : {};
+  return (
+    <Text style={[textStyles.heading, textColor]}>{children}</Text>
+  )
+};
 
-export const Subheading = ({ children }: TypographyProps) => (
-  <Text style={[textStyles.subheading]}>{children}</Text>
-);
+export const Subheading = ({ children, color }: TypographyProps) => {
+  const textColor = color ? { color } : {};
+  return (
+    <Text style={[textStyles.subheading, textColor]}>{children}</Text>
+  )
+};
 
-export const Body = ({ children }: TypographyProps) => (
-  <Text style={[textStyles.body]}>{children}</Text>
-);
+export const Body = ({ children, color }: TypographyProps) => {
+  const textColor = color ? { color } : {};
+  return (
+    <Text style={[textStyles.body, textColor]}>{children}</Text>
+  )
+};
 
-export const Caption = ({ children }: TypographyProps) => (
-  <Text style={[textStyles.caption]}>{children}</Text>
-);
+export const Caption = ({ children, color }: TypographyProps) => {
+  const textColor = color ? { color } : {};
+  return (
+    <Text style={[textStyles.caption, textColor]}>{children}</Text>
+  )
+};
 
-export const Interactive = ({ children }: TypographyProps) => (
-  <Text style={[textStyles.interactive]}>{children}</Text>
-);
+export const Interactive = ({ children, color }: TypographyProps) => {
+  const textColor = color ? { color } : {};
+  return (
+    <Text style={[textStyles.interactive, textColor]}>{children}</Text>
+  )
+};
