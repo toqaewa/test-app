@@ -1,7 +1,8 @@
 import styles from "@/constants/Styles";
 import React, { useState } from 'react';
-import { Button, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import DatePicker from 'react-native-date-picker';
+import { Caption, Interactive } from "./Typography/Typography";
 
 interface DateTimePickerProps {
   selectedDate: Date;
@@ -21,10 +22,8 @@ export default function DateTimePicker({ selectedDate, onDateChange, mode, place
 
   return (
     <TouchableOpacity style={styles.datePicker} onPress={() => setOpen(true)}>
-      <Text style={styles.datePickerPlaceholder}>{placeholder}</Text>
-      {
-        mode === 'date' ? <Text style={styles.datePickerDate}>{selectedDate.toDateString()}</Text> : <Text style={styles.datePickerDate}>{selectedDate.toTimeString()}</Text>
-      }
+      <Caption children={placeholder} />
+      <Interactive children={ mode === 'date' ? selectedDate.toDateString() : selectedDate.toTimeString() } />
       <DatePicker 
         modal
         mode={mode}
