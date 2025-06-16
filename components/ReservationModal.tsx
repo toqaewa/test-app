@@ -1,10 +1,20 @@
 import styles from "@/constants/Styles";
-import { Reservation, STATUS_CONFIG } from "@/types/ReservationTypes";
-import React, { useState } from "react";
-import { Text, Modal, View, TextInput, Button, } from "react-native";
-import { Picker } from '@react-native-picker/picker';
-import 'react-native-get-random-values';
-import UUID from 'react-native-uuid';
+import ReservationModalStyles from "./Styles/ReservationModalStyles";
+import { Reservation, Status } from "@/types/ReservationTypes";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+  Animated,
+  PanResponder,
+  ScrollView
+} from "react-native";
+import DateTimePicker from "./DateTimePicker";
+import { calculateEndTime, parseTime } from "@/utils/timeUtils";
+import GenericSelect from "./GenericSelect";
 
 interface ReservationModalProps {
   visible: boolean;
@@ -13,88 +23,208 @@ interface ReservationModalProps {
   onSave: (reservation: Reservation) => void;
 }
 
-function ReservationModal({ visible, reservation, onClose, onSave }: ReservationModalProps) {
-    const today = new Date().toISOString().split('T')[0];
-
-    const [formData, setFormData] = useState<any>({
-        id: reservation?.id || UUID.v4(),
-        guest: reservation?.guest || '',
-        table: reservation?.table || '',
-        startTime: reservation?.startTime || '09:00',
-        duration: reservation?.duration || 30,
-        partySize: reservation?.partySize || 1,
-        comment: reservation?.comment || '',
-        status: reservation?.status || 'notConfirmed',
-        date: reservation?.date || today,
+function ReservationModal({
+  visible,
+  reservation,
+  onClose,
+  onSave,
+}: ReservationModalProps) {
+  const [formData, setFormData] = useState<Partial<Reservation>>({
+    startTime: "09:00",
+    duration: 30,
+    date: new Date().toISOString().split("T")[0],
+    ...reservation,
   });
 
-  const handleChange = (key: string, value: any) => {
-    setFormData((prev: any) => ({ ...prev, [key]: value }));
+  const [date, setDate] = useState<Date>(new Date());
+  const [startTime, setStartTime] = useState<Date>(new Date());
+  const panY = useRef(new Animated.Value(0)).current;
+  const translateY = panY.interpolate({
+    inputRange: [-1, 0, 1],
+    outputRange: [0, 0, 1],
+  });
+
+  const panResponders = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, gestureState) => {
+        panY.setValue(gestureState.dy > 0 ? gestureState.dy : 0);
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 100) {
+          onClose();
+        } else {
+          Animated.spring(panY, {
+            toValue: 0,
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    })
+  ).current;
+
+  useEffect(() => {
+    if (reservation) {
+      const parsedDate = reservation.date
+        ? new Date(reservation.date)
+        : new Date();
+      const parsedStartTime = reservation.startTime
+        ? parseTime(reservation.startTime)
+        : new Date();
+
+      setDate(parsedDate);
+      setStartTime(parsedStartTime);
+
+      setFormData({
+        ...reservation,
+        date: parsedDate.toISOString().split("T")[0],
+        startTime: reservation.startTime || "09:00",
+        duration: reservation.duration || 30,
+      });
+    }
+  }, [reservation]);
+
+  const handleChange = <K extends keyof Reservation>(
+    key: K,
+    value: Reservation[K]
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
+  const handleSave = () => {
+    const computedData = {
+      ...formData,
+      endTime: calculateEndTime(formData.startTime!, formData.duration!),
+      delayTime: 0,
+    };
+
+    onSave(computedData as Reservation);
+    onClose();
+  };
+
+  if (!visible) return null;
+
   return (
-    <Modal visible={visible} animationType="slide">
-      <View style={styles.modalContainer}>
-        <Text>Title: {formData.title}</Text>
+    <Modal
+      transparent={false}
+      visible={visible}
+      animationType="slide"
+      onRequestClose={onClose}
+      backdropColor={'rgba(0,0,0,0.5)'}
+      presentationStyle="overFullScreen"
+    >
+      <View style={ReservationModalStyles.modalOverlay}>
+        <View
+          style={ReservationModalStyles.bottomSheet}
+          {...panResponders.panHandlers}
+        >
+          <View style={ReservationModalStyles.dragHandle} />
+          
+          <ScrollView 
+            style={ReservationModalStyles.bottomSheetContent}
+            contentContainerStyle={{ gap: 16 }}
+          >
 
-        <TextInput
-          placeholder="Guest"
-          value={formData.guest}
-          onChangeText={(text) => handleChange('guest', text)}
-          style={styles.input}
-        />
+            <TextInput
+              placeholder="Guest"
+              value={formData.guest}
+              onChangeText={(text) => handleChange("guest", text)}
+              style={styles.input}
+              placeholderTextColor="#999"
+            />
 
-        <TextInput
-          placeholder="Table"
-          value={formData.table}
-          onChangeText={(text) => handleChange('table', text)}
-          style={styles.input}
-        />
+            <TextInput
+              placeholder="Table"
+              value={formData.table}
+              onChangeText={(text) => handleChange("table", text)}
+              style={styles.input}
+              placeholderTextColor="#999"
+            />
 
-        <TextInput
-          placeholder="Start Time (HH:mm)"
-          value={formData.startTime}
-          onChangeText={(text) => handleChange('startTime', text)}
-          style={styles.input}
-        />
+            <DateTimePicker
+              selectedDate={date}
+              onDateChange={(date) => {
+                setDate(date);
+                handleChange("date", date.toISOString().split("T")[0]);
+              }}
+              mode="date"
+              placeholder="Date"
+            />
 
-        <TextInput
-          placeholder="Duration (min)"
-          keyboardType="numeric"
-          value={String(formData.duration)}
-          onChangeText={(text) => handleChange('duration', parseInt(text))}
-          style={styles.input}
-        />
+            <DateTimePicker
+              selectedDate={parseTime(formData.startTime || "09:00")}
+              onDateChange={(time) => {
+                setStartTime(time);
+                handleChange("startTime", time.toTimeString().slice(0, 5));
+              }}
+              mode="time"
+              placeholder="Start Time"
+            />
 
-        <TextInput
-          placeholder="Party Size"
-          keyboardType="numeric"
-          value={String(formData.partySize)}
-          onChangeText={(text) => handleChange('partySize', parseInt(text))}
-          style={styles.input}
-        />
+            <TextInput
+              placeholder="Duration (minutes)"
+              keyboardType="numeric"
+              value={String(formData.duration)}
+              onChangeText={(text) => handleChange("duration", parseInt(text) || 0)}
+              style={styles.input}
+              placeholderTextColor="#999"
+            />
 
-        <TextInput
-          placeholder="Comment"
-          multiline
-          value={formData.comment}
-          onChangeText={(text) => handleChange('comment', text)}
-          style={styles.input}
-        />
+            <TextInput
+              placeholder="Party Size"
+              keyboardType="numeric"
+              value={String(formData.partySize)}
+              onChangeText={(text) =>
+                handleChange("partySize", parseInt(text) || 0)
+              }
+              style={styles.input}
+              placeholderTextColor="#999"
+            />
 
-        <Picker
-          selectedValue={formData.status}
-          onValueChange={(value) => handleChange('status', value)}>
-          {Object.entries(STATUS_CONFIG).map(([key, val]) => (
-            <Picker.Item key={key} label={val.label} value={key} />
-          ))}
-        </Picker>
+            <TextInput
+              placeholder="Comment"
+              multiline
+              numberOfLines={3}
+              value={formData.comment}
+              onChangeText={(text) => handleChange("comment", text)}
+              style={[styles.input, styles.multilineInput]}
+              placeholderTextColor="#999"
+            />
 
-        <Button title="Save" onPress={() => onSave(formData)} />
-        <Button title="Cancel" onPress={onClose} />
+            <GenericSelect<Status>
+              items={[
+                { label: 'Not Confirmed', value: 'notConfirmed' },
+                { label: 'Confirmed', value: 'confirmed' },
+                { label: 'Started', value: 'started' },
+              ]}
+              value={formData.status || 'notConfirmed'}
+              onChange={(status) => handleChange('status', status)}
+            />
+
+            <View style={ReservationModalStyles.buttonsContainer}>
+              <TouchableOpacity
+                style={[ReservationModalStyles.button, ReservationModalStyles.cancelButton]}
+                onPress={onClose}
+              >
+                <Text style={ReservationModalStyles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[ReservationModalStyles.button, ReservationModalStyles.saveButton]}
+                onPress={handleSave}
+              >
+                <Text style={ReservationModalStyles.buttonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
       </View>
     </Modal>
   );
 }
 
-export default ReservationModal
+export default ReservationModal;

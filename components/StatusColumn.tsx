@@ -10,8 +10,6 @@ interface StatusColumnProps {
   onReservationPress: (reservation: Reservation) => void;
 }
 
-
-
 function StatusColumn({ status, reservations, onReservationPress }: StatusColumnProps) {
   const sortedReservations = [...reservations].sort((a, b) => {
     const aEnd = new Date(`2000-01-01T${a.startTime}` as any).getTime() + a.duration * 60000;

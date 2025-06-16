@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
+import styles from '@/constants/Styles';
 
 interface GenericSelectProps<T extends ValueType> {
   items: Array<{ label: string; value: T }>;
   value: T | null;
   onChange: (value: T) => void;
   placeholder?: string;
-  dropDownStyle?: object;
   listMode?: 'SCROLLVIEW' | 'MODAL' | 'FLATLIST';
 }
 
@@ -34,8 +34,8 @@ export default function GenericSelect<T extends ValueType>({
       }}
       listMode={listMode}
       placeholder={placeholder}
-      style={{ borderColor: '#ccc', borderRadius: 12 }}
-      dropDownContainerStyle={{ borderColor: '#ccc' }}
+      style={styles.input}
+      dropDownContainerStyle={styles.input}
     />
   );
 }
