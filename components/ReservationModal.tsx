@@ -10,7 +10,7 @@ import {
   Modal,
   Animated,
   PanResponder,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import DateTimePicker from "./DateTimePicker";
 import { calculateEndTime, parseTime } from "@/utils/timeUtils";
@@ -114,7 +114,7 @@ function ReservationModal({
       visible={visible}
       animationType="slide"
       onRequestClose={onClose}
-      backdropColor={'rgba(0,0,0,0.5)'}
+      backdropColor={"rgba(0,0,0,0.5)"}
       presentationStyle="overFullScreen"
     >
       <View style={ReservationModalStyles.modalOverlay}>
@@ -123,12 +123,11 @@ function ReservationModal({
           {...panResponders.panHandlers}
         >
           <View style={ReservationModalStyles.dragHandle} />
-          
-          <ScrollView 
+
+          <ScrollView
             style={ReservationModalStyles.bottomSheetContent}
             contentContainerStyle={{ gap: 16 }}
           >
-
             <TextInput
               placeholder="Guest"
               value={formData.guest}
@@ -137,12 +136,18 @@ function ReservationModal({
               placeholderTextColor="#999"
             />
 
-            <TextInput
+            <GenericSelect
+              items={[
+                { label: "VIP 1", value: "VIP 1" },
+                { label: "VIP 2", value: "VIP 2" },
+                { label: "VIP 3", value: "VIP 3" },
+                { label: "VIP 4", value: "VIP 4" },
+                { label: "VIP 5", value: "VIP 5" },
+                { label: "VIP 6", value: "VIP 6" },
+              ]}
               placeholder="Table"
-              value={formData.table}
-              onChangeText={(text) => handleChange("table", text)}
-              style={styles.input}
-              placeholderTextColor="#999"
+              value={formData.table || null}
+              onChange={(table) => handleChange("table", table)}
             />
 
             <DateTimePicker
@@ -169,7 +174,9 @@ function ReservationModal({
               placeholder="Duration (minutes)"
               keyboardType="numeric"
               value={String(formData.duration)}
-              onChangeText={(text) => handleChange("duration", parseInt(text) || 0)}
+              onChangeText={(text) =>
+                handleChange("duration", parseInt(text) || 0)
+              }
               style={styles.input}
               placeholderTextColor="#999"
             />
@@ -197,30 +204,35 @@ function ReservationModal({
 
             <GenericSelect<Status>
               items={[
-                { label: 'Not Confirmed', value: 'notConfirmed' },
-                { label: 'Confirmed', value: 'confirmed' },
-                { label: 'Started', value: 'started' },
+                { label: "Not Confirmed", value: "notConfirmed" },
+                { label: "Confirmed", value: "confirmed" },
+                { label: "Started", value: "started" },
               ]}
-              value={formData.status || 'notConfirmed'}
-              onChange={(status) => handleChange('status', status)}
+              value={formData.status || "notConfirmed"}
+              onChange={(status) => handleChange("status", status)}
             />
-
-            <View style={ReservationModalStyles.buttonsContainer}>
-              <TouchableOpacity
-                style={[ReservationModalStyles.button, ReservationModalStyles.cancelButton]}
-                onPress={onClose}
-              >
-                <Text style={ReservationModalStyles.buttonText}>Cancel</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[ReservationModalStyles.button, ReservationModalStyles.saveButton]}
-                onPress={handleSave}
-              >
-                <Text style={ReservationModalStyles.buttonText}>Save</Text>
-              </TouchableOpacity>
-            </View>
           </ScrollView>
+          <View style={ReservationModalStyles.buttonsContainer}>
+            <TouchableOpacity
+              style={[
+                ReservationModalStyles.button,
+                ReservationModalStyles.cancelButton,
+              ]}
+              onPress={onClose}
+            >
+              <Text style={ReservationModalStyles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                ReservationModalStyles.button,
+                ReservationModalStyles.saveButton,
+              ]}
+              onPress={handleSave}
+            >
+              <Text style={ReservationModalStyles.buttonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>

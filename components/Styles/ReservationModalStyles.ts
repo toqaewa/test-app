@@ -28,7 +28,7 @@ const ReservationModalStyles = StyleSheet.create({
         flexDirection: 'row',
         gap: 16,
         justifyContent: 'space-evenly',
-        marginTop: 52,
+        marginVertical: 32,
     },
     button: {
         flex: 1,
