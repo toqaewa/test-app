@@ -1,6 +1,6 @@
 import styles from "@/constants/Styles";
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import DatePicker from 'react-native-date-picker';
 import { Caption, Interactive } from "./Typography/Typography";
 

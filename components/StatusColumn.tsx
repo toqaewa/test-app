@@ -19,7 +19,7 @@ function StatusColumn({ status, reservations, onReservationPress }: StatusColumn
   });
 
   return (
-    <View style={[styles.column, { backgroundColor: STATUS_CONFIG[status].color + "80" }]}>
+    <View style={[styles.column, { backgroundColor: STATUS_CONFIG[status].color + "50" }]}>
       <Subheading children={STATUS_CONFIG[status].label} color={STATUS_CONFIG[status].color} />
       <ScrollView contentContainerStyle={{ gap: 8 }}>
         {sortedReservations.map((reservation: Reservation) => (

@@ -6,17 +6,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     gap: 32,
     backgroundColor: "#fff",
-    fontFamily: "Jura",
   },
   column: {
     width: 300,
     padding: 8,
+    gap: 8,
     backgroundColor: "#f0f0f0",
     borderRadius: 16,
-  },
-  columnHeader: {
-    fontWeight: "bold",
-    marginBottom: 8,
   },
   card: {
     padding: 8,
@@ -30,16 +26,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 12,
   },
-  datePickerToggle: {},
-  datePickerPlaceholder: {
-    fontWeight: 500,
-    fontSize: 12,
-  },
-  datePickerDate: {
-    fontWeight: 700,
-    fontSize: 14,
-  },
   input: {
+    fontFamily: "Jura",
     borderWidth: 1,
     borderColor: "#DDD",
     backgroundColor: "#fff",
@@ -48,6 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   multilineInput: {
+    fontFamily: "Jura",
     minHeight: 80,
     textAlignVertical: "top",
   },

@@ -44,8 +44,9 @@ const ReservationModalStyles = StyleSheet.create({
         backgroundColor: '#999',
     },
     buttonText: {
+        fontFamily: "Jura",
         color: 'white',
-        fontWeight: 'bold',
+        fontWeight: 700,
         fontSize: 16,
     },
 });

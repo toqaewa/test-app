@@ -8,7 +8,7 @@ import UUID from 'react-native-uuid';
 import DateTimePicker from "@/components/DateTimePicker";
 import { calculateEndTime, calculateDelay } from "@/utils/timeUtils";
 
-export default function MainScreen() {
+export default function MainScreen({ onLayout }: { onLayout?: () => void }) {
     const [date, setDate] = useState(new Date());
     const [modalVisible, setModalVisible] = useState(false);
     const [currentReservation, setCurrentReservation] = useState<Partial<Reservation>>({});
@@ -108,7 +108,7 @@ export default function MainScreen() {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} onLayout={onLayout}>
             <DateTimePicker 
                 selectedDate={date} 
                 onDateChange={setDate}

@@ -33,6 +33,6 @@ export const textStyles = StyleSheet.create({
     fontFamily: "Jura",
     fontSize: 16,
     fontWeight: "500",
-    color: "#3b82f6",
+    color: "#000",
   },
 });
