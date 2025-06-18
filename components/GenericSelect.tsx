@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DropDownPicker, { ValueType } from 'react-native-dropdown-picker';
 import styles from '@/constants/Styles';
+import {textStyles} from './Typography/TextStyles'
 
 interface GenericSelectProps<T extends ValueType> {
   items: Array<{ label: string; value: T }>;
@@ -23,7 +24,7 @@ export default function GenericSelect<T extends ValueType>({
     <DropDownPicker
       open={open}
       value={value}
-      items={items.map(item => ({ ...item, value: item.value as any }))} // кастуем для совместимости
+      items={items.map(item => ({ ...item, value: item.value as any }))}
       setOpen={setOpen}
       setValue={(callbackOrValue) => {
         const newValue = callbackOrValue instanceof Function
@@ -34,8 +35,16 @@ export default function GenericSelect<T extends ValueType>({
       }}
       listMode={listMode}
       placeholder={placeholder}
+      placeholderStyle={{ opacity: 0, position: 'absolute' }}
       style={styles.input}
+      textStyle={textStyles.interactive}
       dropDownContainerStyle={styles.input}
+      listItemLabelStyle={textStyles.interactive}
+      selectedItemLabelStyle={{
+        fontWeight: '700',
+        color: '#B45100',
+      }}
+      showTickIcon={false}
     />
   );
 }
