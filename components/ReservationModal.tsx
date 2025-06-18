@@ -15,6 +15,8 @@ import {
 import DateTimePicker from "./DateTimePicker";
 import { calculateEndTime, parseTime } from "@/utils/timeUtils";
 import GenericSelect from "./GenericSelect";
+import { Caption } from "./Typography/Typography";
+import Input from "./DataEntry/Input";
 
 interface ReservationModalProps {
   visible: boolean;
@@ -127,13 +129,12 @@ function ReservationModal({
           <ScrollView
             style={ReservationModalStyles.bottomSheetContent}
             contentContainerStyle={{ gap: 16 }}
+            nestedScrollEnabled={true}
           >
-            <TextInput
-              placeholder="Guest"
+            <Input
               value={formData.guest}
-              onChangeText={(text) => handleChange("guest", text)}
-              style={styles.input}
-              placeholderTextColor="#999"
+              placeholder="Guest"
+              onChange={(text) => handleChange("guest", text)}
             />
 
             <GenericSelect
@@ -192,14 +193,11 @@ function ReservationModal({
               placeholderTextColor="#999"
             />
 
-            <TextInput
-              placeholder="Comment"
-              multiline
-              numberOfLines={3}
+            <Input
               value={formData.comment}
-              onChangeText={(text) => handleChange("comment", text)}
-              style={[styles.input, styles.multilineInput]}
-              placeholderTextColor="#999"
+              placeholder="Comment"
+              onChange={(text) => handleChange("comment", text)}
+              multiline
             />
 
             <GenericSelect<Status>

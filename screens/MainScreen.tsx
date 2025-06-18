@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView, Button, Text } from "react-native";
+import { View, ScrollView, Button, Text, TouchableOpacity, TextInput } from "react-native";
 import { Reservation } from "@/types/ReservationTypes";
 import StatusColumn from "@/components/StatusColumn";
 import styles from "@/constants/Styles";
@@ -16,7 +16,7 @@ export default function MainScreen({ onLayout }: { onLayout?: () => void }) {
         {
         id: '1',
         guest: 'Alexander Rusakov',
-        table: 'VIP1',
+        table: 'VIP 1',
         startTime: '10:00',
         duration: 60,
         partySize: 3,
@@ -29,7 +29,7 @@ export default function MainScreen({ onLayout }: { onLayout?: () => void }) {
         {
         id: '2',
         guest: 'Denis Kharlamov',
-        table: 'VIP2',
+        table: 'VIP 2',
         startTime: '12:00',
         duration: 120,
         partySize: 2,
@@ -42,7 +42,7 @@ export default function MainScreen({ onLayout }: { onLayout?: () => void }) {
         {
         id: '3',
         guest: 'Ivan Petrov',
-        table: 'VIP4',
+        table: 'VIP 4',
         startTime: '12:00',
         duration: 120,
         partySize: 8,
