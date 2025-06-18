@@ -35,7 +35,7 @@ export default function GenericSelect<T extends ValueType>({
       }}
       listMode={listMode}
       placeholder={placeholder}
-      placeholderStyle={{ opacity: 0, position: 'absolute' }}
+      placeholderStyle={{ color: "#999" }}
       style={styles.input}
       textStyle={textStyles.interactive}
       dropDownContainerStyle={styles.input}
