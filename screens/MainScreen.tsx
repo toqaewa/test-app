@@ -5,7 +5,7 @@ import StatusColumn from "@/components/StatusColumn";
 import styles from "@/constants/Styles";
 import ReservationModal from "@/components/ReservationModal";
 import UUID from 'react-native-uuid';
-import DateTimePicker from "@/components/DateTimePicker";
+import GenericDateTimePicker from "@/components/GenericDateTimePicker";
 import { calculateEndTime, calculateDelay } from "@/utils/timeUtils";
 
 export default function MainScreen({ onLayout }: { onLayout?: () => void }) {
@@ -109,7 +109,7 @@ export default function MainScreen({ onLayout }: { onLayout?: () => void }) {
 
     return (
         <View style={styles.container} onLayout={onLayout}>
-            <DateTimePicker 
+            <GenericDateTimePicker
                 selectedDate={date} 
                 onDateChange={setDate}
                 mode="date"

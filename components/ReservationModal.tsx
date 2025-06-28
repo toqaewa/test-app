@@ -12,11 +12,11 @@ import {
   PanResponder,
   ScrollView,
 } from "react-native";
-import DateTimePicker from "./DateTimePicker";
 import { calculateEndTime, parseTime } from "@/utils/timeUtils";
 import GenericSelect from "./GenericSelect";
 import { Caption } from "./Typography/Typography";
 import Input from "./DataEntry/Input";
+import GenericDateTimePicker from "./GenericDateTimePicker";
 
 interface ReservationModalProps {
   visible: boolean;
@@ -151,24 +151,24 @@ function ReservationModal({
               onChange={(table) => handleChange("table", table)}
             />
 
-            <DateTimePicker
-              selectedDate={date}
-              onDateChange={(date) => {
-                setDate(date);
-                handleChange("date", date.toISOString().split("T")[0]);
-              }}
-              mode="date"
-              placeholder="Date"
+            <GenericDateTimePicker
+                selectedDate={date} 
+                onDateChange={(date) => {
+                    setDate(date);
+                    handleChange("date", date.toISOString().split("T")[0]);
+                }}
+                mode="date"
+                placeholder="Date"
             />
 
-            <DateTimePicker
-              selectedDate={parseTime(formData.startTime || "09:00")}
-              onDateChange={(time) => {
-                setStartTime(time);
-                handleChange("startTime", time.toTimeString().slice(0, 5));
-              }}
-              mode="time"
-              placeholder="Start Time"
+            <GenericDateTimePicker
+                selectedDate={parseTime(formData.startTime || "09:00")} 
+                onDateChange={(time) => {
+                    setStartTime(time);
+                    handleChange("startTime", time.toTimeString().slice(0, 5));
+                }}
+                mode="time"
+                placeholder="Start Time"
             />
 
             <TextInput
